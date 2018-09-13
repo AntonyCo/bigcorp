@@ -24,7 +24,7 @@ public class RealMeasureServiceTest {
     /**
      * Captor used in tests
      */
-    private Captor captor = new Captor("test", PowerSource.REAL);
+    private Captor captor = new Captor("test", PowerSource.REAL, null);
     /**
      * Start instant used in tests
      */

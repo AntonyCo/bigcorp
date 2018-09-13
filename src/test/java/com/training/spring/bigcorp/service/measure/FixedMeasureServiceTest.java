@@ -24,7 +24,7 @@ public class FixedMeasureServiceTest {
     /**
      * Captor used in tests
      */
-    private Captor captor = new Captor("test", PowerSource.FIXED);
+    private Captor captor = new Captor("test", PowerSource.FIXED, null);
     /**
      * Start instant used in tests
      */

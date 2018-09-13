@@ -24,7 +24,7 @@ public class SimulatedMeasureServiceTest {
     /**
      * Captor used in tests
      */
-    private Captor captor = new Captor("test", PowerSource.SIMULATED);
+    private Captor captor = new Captor("test", PowerSource.SIMULATED, null);
     /**
      * Start instant used in tests
      */
