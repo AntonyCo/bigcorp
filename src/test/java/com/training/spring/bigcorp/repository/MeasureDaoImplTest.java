@@ -36,15 +36,15 @@ public class MeasureDaoImplTest {
 
     @Test
     public void findById() {
-        Measure measure = measureDao.findById("1");
+        Measure measure = measureDao.findById(1L);
         Assertions.assertThat(measure.getValueInWatt()).isEqualTo(1000000);
 
-        measure = measureDao.findById("5");
+        measure = measureDao.findById(5L);
         Assertions.assertThat(measure.getValueInWatt()).isEqualTo(1009678);
     }
     @Test
     public void findByIdShouldReturnNullWhenIdUnknown() {
-        Measure measure = measureDao.findById("40");
+        Measure measure = measureDao.findById(40L);
         Assertions.assertThat(measure).isNull();
     }
     @Test
@@ -88,11 +88,11 @@ public class MeasureDaoImplTest {
     }
     @Test
     public void update() {
-        Measure measure = measureDao.findById("3");
+        Measure measure = measureDao.findById(3L);
         Assertions.assertThat(measure.getValueInWatt()).isEqualTo(1001234);
         measure.setValueInWatt(1005555);
         measureDao.update(measure);
-        measure = measureDao.findById("3");
+        measure = measureDao.findById(3L);
         Assertions.assertThat(measure.getValueInWatt()).isEqualTo(1005555);
     }
     @Test
@@ -100,8 +100,8 @@ public class MeasureDaoImplTest {
         Measure newmeasure = new Measure(Instant.now(), 1005555, captor);
         newmeasure.setId(11L);
         measureDao.create(newmeasure);
-        Assertions.assertThat(measureDao.findById(String.valueOf(newmeasure.getId()))).isNotNull();
-        measureDao.deleteById(String.valueOf(newmeasure.getId()));
-        Assertions.assertThat(measureDao.findById(String.valueOf(newmeasure.getId()))).isNull();
+        Assertions.assertThat(measureDao.findById(newmeasure.getId())).isNotNull();
+        measureDao.deleteById(newmeasure.getId());
+        Assertions.assertThat(measureDao.findById(newmeasure.getId())).isNull();
     }
 }

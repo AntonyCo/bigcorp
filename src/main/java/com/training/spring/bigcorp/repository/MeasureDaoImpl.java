@@ -34,7 +34,7 @@ public class MeasureDaoImpl implements MeasureDao {
     }
 
     @Override
-    public Measure findById(String id) {
+    public Measure findById(Long id) {
         try {
             return jdbcTemplate.queryForObject(SELECT_WITH_JOIN + "where m.id = :id",
                     new MapSqlParameterSource("id", id),
@@ -61,7 +61,7 @@ public class MeasureDaoImpl implements MeasureDao {
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         jdbcTemplate.update("delete from MEASURE where id =:id",
                 new MapSqlParameterSource()
                         .addValue("id", id));

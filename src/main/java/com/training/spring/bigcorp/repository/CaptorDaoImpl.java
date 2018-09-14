@@ -39,7 +39,7 @@ public class CaptorDaoImpl implements  CaptorDao{
     @Override
     public Captor findById(String id) {
         try {
-            return jdbcTemplate.queryForObject("select id, name, site_id from CAPTOR where id = :id ",
+            return jdbcTemplate.queryForObject(SELECT_WITH_JOIN+"where c.id = :id",
                     new MapSqlParameterSource("id", id),
                     this::captorMapper);
         }catch (EmptyResultDataAccessException e){
@@ -70,7 +70,7 @@ public class CaptorDaoImpl implements  CaptorDao{
     }
 
     private Captor captorMapper(ResultSet rs, int rowNum) throws SQLException {
-        Site site = new Site(rs.getString("name"));
+        Site site = new Site(rs.getString("site_name"));
         site.setId(rs.getString("site_id"));
         Captor captor = new Captor(rs.getString("name"), null, site);
         captor.setId(rs.getString("id"));

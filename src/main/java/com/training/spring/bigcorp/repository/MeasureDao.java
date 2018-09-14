@@ -5,5 +5,5 @@ import com.training.spring.bigcorp.model.Site;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MeasureDao extends CrudDao<Measure, String> {
+public interface MeasureDao extends CrudDao<Measure, Long> {
 }
