@@ -1,22 +1,20 @@
 package com.training.spring.bigcorp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Captor {
-    /**
-     * Captor id
-     */
+
     @Id
     private String id = UUID.randomUUID().toString();
 
-    /**
-     * Captor name
-     */
-    @Column(nullable = false)
+    @NotNull(message = "must not be null")
+    @Pattern(regexp = "^.{3,100}$", message = "size must be between 3 and 100")
     private String name;
 
     @ManyToOne(optional = false)
@@ -30,10 +28,6 @@ public abstract class Captor {
         // Use for serializer or deserializer
     }
 
-    /**
-     * Constructor to use with required property
-     * @param name
-     */
     public Captor(String name, Site site) {
         this.name = name;
         this.site = site;

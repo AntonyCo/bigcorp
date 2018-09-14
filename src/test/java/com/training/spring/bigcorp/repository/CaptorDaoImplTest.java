@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -137,5 +136,37 @@ public class CaptorDaoImplTest {
         // à 0 je dois avoir une exception
         Assertions.assertThatThrownBy(() -> captorDao.save(captor))
                 .isExactlyInstanceOf(ObjectOptimisticLockingFailureException.class);
+    }
+
+    @Test
+    public void createShouldThrowExceptionWhenNameIsNull() {
+        Assertions
+                .assertThatThrownBy(() -> {
+                    captorDao.save(new RealCaptor(null, null));
+                    entityManager.flush();
+                })
+                .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
+                .hasMessageContaining("must not be null");
+    }
+    @Test
+    public void createShouldThrowExceptionWhenNameSizeIsInvalid() {
+        Assertions
+                .assertThatThrownBy(() -> {
+                    captorDao.save(new RealCaptor("ee", null));
+                    entityManager.flush();
+                })
+                .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
+                .hasMessageContaining("size must be between 3 and 100");
+    }
+
+    @Test
+    public void createSimulatedCaptorShouldThrowExceptionWhenMinMaxAreInvalid() {
+        Assertions
+                .assertThatThrownBy(() -> {
+                    captorDao.save(new SimulatedCaptor("Mon site", site, 10, 5));
+                    entityManager.flush();
+                })
+                .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
+                .hasMessageContaining("minPowerInWatt should be less than maxPowerInWatt");
     }
 }

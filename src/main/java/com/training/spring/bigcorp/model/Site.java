@@ -1,6 +1,8 @@
 package com.training.spring.bigcorp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -10,7 +12,8 @@ public class Site {
     @Id
     private String id = UUID.randomUUID().toString();
 
-    @Column(nullable = false)
+    @NotNull(message = "must not be null")
+    @Pattern(regexp = "^.{3,100}$", message = "size must be between 3 and 100")
     private String name;
 
     @OneToMany(mappedBy = "site")
@@ -24,10 +27,6 @@ public class Site {
         // Use for serializer or deserializer
     }
 
-    /**
-     * Constructor to use with required property
-     * @param name
-     */
     public Site(String name) {
         this.name = name;
     }
