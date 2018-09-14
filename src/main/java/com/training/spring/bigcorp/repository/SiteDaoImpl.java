@@ -1,6 +1,7 @@
 package com.training.spring.bigcorp.repository;
 
 import com.training.spring.bigcorp.model.Site;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,15 +28,19 @@ public class SiteDaoImpl implements SiteDao {
 
     @Override
     public Site findById(String id) {
-        return jdbcTemplate.queryForObject("select id, name from SITE where id = :id ",
-        new MapSqlParameterSource("id", id),
-                this::siteMapper);
+        try {
+            return jdbcTemplate.queryForObject("select id, name from SITE where id = :id ",
+                    new MapSqlParameterSource("id", id),
+                    this::siteMapper);
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
 
     }
-
     @Override
     public List<Site> findAll() {
-        return jdbcTemplate.query(SELECT_WITH_JOIN, this::siteMapper);
+        return jdbcTemplate.query("select id, name from SITE",
+                this::siteMapper);
     }
 
     @Override
@@ -54,8 +59,8 @@ public class SiteDaoImpl implements SiteDao {
     }
 
     private Site siteMapper(ResultSet rs, int rowNum) throws SQLException {
-        Site site = new Site(rs.getString("site_name"));
-        site.setId(rs.getString("site_id"));
+        Site site = new Site(rs.getString("name"));
+        site.setId(rs.getString("id"));
         return site;
     }
 }

@@ -15,8 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringRunner.class)
 @JdbcTest
 @ContextConfiguration(classes = {DaoTestConfig.class})
@@ -68,7 +66,8 @@ public class CaptorDaoImplTest {
         Assertions.assertThat(captor.getName()).isEqualTo("Captor updated");
     }
     @Test
-    public void deleteById() {Captor newcaptor = new Captor("New captor",null, site);
+    public void deleteById() {
+        Captor newcaptor = new Captor("New captor",null, site);
         captorDao.create(newcaptor);
         Assertions.assertThat(captorDao.findById(newcaptor.getId())).isNotNull();
         captorDao.deleteById(newcaptor.getId());
