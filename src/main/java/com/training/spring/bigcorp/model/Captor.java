@@ -1,22 +1,27 @@
 package com.training.spring.bigcorp.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Captor {
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Captor {
     /**
      * Captor id
      */
+    @Id
     private String id = UUID.randomUUID().toString();
 
     /**
      * Captor name
      */
+    @Column(nullable = false)
     private String name;
 
-    private PowerSource powerSource;
-
+    @ManyToOne(optional = false)
     private Site site;
+
     @Deprecated
     public Captor() {
         // Use for serializer or deserializer
@@ -26,9 +31,8 @@ public class Captor {
      * Constructor to use with required property
      * @param name
      */
-    public Captor(String name, PowerSource powerSource, Site site) {
+    public Captor(String name, Site site) {
         this.name = name;
-        this.powerSource = powerSource;
         this.site = site;
     }
 
@@ -46,14 +50,6 @@ public class Captor {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public PowerSource getPowerSource() {
-        return powerSource;
-    }
-
-    public void setPowerSource(PowerSource powerSource) {
-        this.powerSource = powerSource;
     }
 
     public Site getSite() {

@@ -1,6 +1,7 @@
 package com.training.spring.bigcorp.service;
 
 import com.training.spring.bigcorp.model.Captor;
+import com.training.spring.bigcorp.model.FixedCaptor;
 import com.training.spring.bigcorp.model.PowerSource;
 import com.training.spring.bigcorp.model.Site;
 import com.training.spring.bigcorp.repository.CaptorDao;
@@ -38,7 +39,7 @@ public class CaptorServiceImplTest {
     public void findBySite() {
         // Initialisation
         String siteId = "siteId";
-        Captor expectedCaptor = new Captor("Capteur A", PowerSource.FIXED, new Site("Florange"));
+        FixedCaptor expectedCaptor = new FixedCaptor("Capteur A", new Site("Florange"));
         Mockito.when(captorDao.findBySiteId(siteId)).thenReturn(Arrays.asList(expectedCaptor));
         // Appel du SUT
         Set<Captor> captors = captorService.findBySite(siteId);
