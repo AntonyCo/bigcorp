@@ -9,12 +9,18 @@ public class Measure {
     @Id
     @GeneratedValue
     private Long id;
+
     @Column(nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant instant;
+
     @Column(nullable = false)
     private Integer valueInWatt;
+
     @ManyToOne(optional = false)
     private Captor captor;
+
+    @Version
+    private int version;
 
     public Measure(){}
     public Measure(Instant instant, Integer valueInWatt, Captor captor) {
@@ -77,5 +83,13 @@ public class Measure {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

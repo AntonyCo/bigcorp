@@ -22,6 +22,9 @@ public abstract class Captor {
     @ManyToOne(optional = false)
     private Site site;
 
+    @Version
+    private int version;
+
     @Deprecated
     public Captor() {
         // Use for serializer or deserializer
@@ -80,5 +83,13 @@ public abstract class Captor {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }
