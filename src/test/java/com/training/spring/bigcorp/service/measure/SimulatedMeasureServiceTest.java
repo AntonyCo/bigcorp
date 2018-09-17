@@ -21,7 +21,7 @@ public class SimulatedMeasureServiceTest {
     /**
      * Captor used in tests
      */
-    private SimulatedCaptor captor = new SimulatedCaptor("test", null);
+    private SimulatedCaptor captor = new SimulatedCaptor("test", null, 0, 10);
     /**
      * Start instant used in tests
      */

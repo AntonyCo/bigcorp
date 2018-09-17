@@ -11,7 +11,12 @@ import java.util.UUID;
 public abstract class Captor {
 
     @Id
-    private String id = UUID.randomUUID().toString();
+    private String id ;
+
+    @PrePersist
+    public void generateId() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     @NotNull(message = "must not be null")
     @Pattern(regexp = "^.{3,100}$", message = "size must be between 3 and 100")
@@ -23,14 +28,18 @@ public abstract class Captor {
     @Version
     private int version;
 
-    @Deprecated
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private PowerSource powerSource;
+
     public Captor() {
         // Use for serializer or deserializer
     }
 
-    public Captor(String name, Site site) {
+    public Captor(String name, Site site, PowerSource powerSource) {
         this.name = name;
         this.site = site;
+        this.powerSource = powerSource;
     }
 
     public String getId() {
@@ -85,5 +94,13 @@ public abstract class Captor {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public PowerSource getPowerSource() {
+        return powerSource;
+    }
+
+    public void setPowerSource(PowerSource powerSource) {
+        this.powerSource = powerSource;
     }
 }

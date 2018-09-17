@@ -45,7 +45,7 @@ public class SiteServiceImplTest {
         // Initialisation
         String siteId = "siteId";
         Optional<Site> siteA = Optional.of(new Site("Site A"));
-        FixedCaptor expectedCaptor = new FixedCaptor("Capteur A", new Site("Florange"));
+        FixedCaptor expectedCaptor = new FixedCaptor("Capteur A", new Site("Florange"), 0);
         Mockito.when(siteDao.findById(siteId)).thenReturn(siteA);
         Mockito.when(captorDao.findBySiteId(siteId)).thenReturn(Arrays.asList(expectedCaptor));
 

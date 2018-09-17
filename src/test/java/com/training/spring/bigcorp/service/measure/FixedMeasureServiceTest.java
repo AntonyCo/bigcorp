@@ -21,7 +21,7 @@ public class FixedMeasureServiceTest {
     /**
      * Captor used in tests
      */
-    private FixedCaptor captor = new FixedCaptor("test", null);
+    private FixedCaptor captor = new FixedCaptor("test", null, 0);
     /**
      * Start instant used in tests
      */

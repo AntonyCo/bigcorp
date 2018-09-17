@@ -39,7 +39,7 @@ public class CaptorServiceImplTest {
     public void findBySite() {
         // Initialisation
         String siteId = "siteId";
-        FixedCaptor expectedCaptor = new FixedCaptor("Capteur A", new Site("Florange"));
+        FixedCaptor expectedCaptor = new FixedCaptor("Capteur A", new Site("Florange"), 0);
         Mockito.when(captorDao.findBySiteId(siteId)).thenReturn(Arrays.asList(expectedCaptor));
         // Appel du SUT
         Set<Captor> captors = captorService.findBySite(siteId);

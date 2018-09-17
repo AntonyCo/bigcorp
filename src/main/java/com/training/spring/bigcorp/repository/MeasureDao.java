@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MeasureDao extends JpaRepository<Measure, Long> {
+    void deleteByCaptorId(String captorId);
 }

@@ -10,7 +10,12 @@ import java.util.UUID;
 @Entity
 public class Site {
     @Id
-    private String id = UUID.randomUUID().toString();
+    private String id;
+
+    @PrePersist
+    public void generateId() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     @NotNull(message = "must not be null")
     @Pattern(regexp = "^.{3,100}$", message = "size must be between 3 and 100")
@@ -22,7 +27,6 @@ public class Site {
     @Version
     private int version;
 
-    @Deprecated
     public Site() {
         // Use for serializer or deserializer
     }
