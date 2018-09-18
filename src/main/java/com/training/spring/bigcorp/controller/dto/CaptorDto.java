@@ -32,7 +32,7 @@ public class CaptorDto {
         this.maxPowerInWatt = simulatedCaptor.getMaxPowerInWatt();
     }
     public CaptorDto(Site site, RealCaptor realCaptor) {
-        this.powerSource = PowerSource.SIMULATED;
+        this.powerSource = PowerSource.REAL;
         this.id = realCaptor.getId();
         this.name = realCaptor.getName();
         this.siteId = site.getId();
