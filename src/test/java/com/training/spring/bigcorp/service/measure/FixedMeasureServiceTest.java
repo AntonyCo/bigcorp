@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ContextConfiguration(classes = {MeasureServiceConfigurationTest.class})
 public class FixedMeasureServiceTest {
     @Autowired
-    private FixedMeasureService service;
+    private MeasureService<FixedCaptor> service;
     /**
      * Captor used in tests
      */

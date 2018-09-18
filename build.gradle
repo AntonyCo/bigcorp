@@ -44,5 +44,5 @@ tasks.withType(JavaCompile) {
 }
 
 bootRun{
-	addResources = true
+	sourceResources sourceSets.main
 }

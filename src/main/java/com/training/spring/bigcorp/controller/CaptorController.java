@@ -1,6 +1,7 @@
 package com.training.spring.bigcorp.controller;
 
 import com.training.spring.bigcorp.controller.dto.CaptorDto;
+import com.training.spring.bigcorp.exception.NotFoundException;
 import com.training.spring.bigcorp.model.*;
 import com.training.spring.bigcorp.repository.CaptorDao;
 import com.training.spring.bigcorp.repository.MeasureDao;
@@ -61,20 +62,20 @@ public class CaptorController {
     public ModelAndView findById(@PathVariable String siteId, @PathVariable String id)
     {
         Captor captor =
-                captorDao.findById(id).orElseThrow(IllegalArgumentException::new);
+                captorDao.findById(id).orElseThrow(NotFoundException::new);
         return new ModelAndView("captor").addObject("captor", toDto(captor));
     }
     @GetMapping("/create")
     public ModelAndView create(@PathVariable String siteId) {
         Site site =
-                siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
+                siteDao.findById(siteId).orElseThrow(NotFoundException::new);
         return new ModelAndView("captor")
                 .addObject("captor",
                         new CaptorDto(site, new FixedCaptor(null, site, null)));
     }
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ModelAndView save(@PathVariable String siteId, CaptorDto captorDto) {
-        Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
+        Site site = siteDao.findById(siteId).orElseThrow(NotFoundException::new);
         Captor captor = captorDto.toCaptor(site);
         captorDao.save(captor);
         return new ModelAndView("site").addObject("site", site);
@@ -85,6 +86,6 @@ public class CaptorController {
         captorDao.deleteById(id);
         return new ModelAndView("site")
                 .addObject("site",
-                        siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new));
+                        siteDao.findById(siteId).orElseThrow(NotFoundException::new));
     }
 }
