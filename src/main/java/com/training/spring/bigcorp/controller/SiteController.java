@@ -63,22 +63,4 @@ public class SiteController {
         siteDao.delete(site);
         return new ModelAndView("sites").addObject("sites", siteDao.findAll());
     }
-
-   /* @GetMapping("/{id}/captors/{captorId}")
-    public ModelAndView displayEditCaptor(@PathVariable String id, @PathVariable String captorId){
-        Site site = siteDao.findById(id).orElseThrow(IllegalArgumentException::new);
-        Captor cap = captorDao.findById(captorId).orElseThrow(IllegalArgumentException::new);
-        if(cap.getPowerSource() == PowerSource.FIXED) {
-            return new ModelAndView("fixedCaptor")
-                    .addObject("site", site)
-                    .addObject("captor", cap);
-        }else if(cap.getPowerSource() == PowerSource.SIMULATED){
-            return new ModelAndView("simulatedCaptor")
-                    .addObject("site", site)
-                    .addObject("captor", cap);
-        }else{
-            return new ModelAndView("site")
-                    .addObject("site", site);
-        }
-    }*/
 }
