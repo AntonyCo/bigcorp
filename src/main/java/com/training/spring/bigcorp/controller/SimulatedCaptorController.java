@@ -1,8 +1,7 @@
 package com.training.spring.bigcorp.controller;
 
-import com.training.spring.bigcorp.model.Captor;
 import com.training.spring.bigcorp.model.FixedCaptor;
-import com.training.spring.bigcorp.model.PowerSource;
+import com.training.spring.bigcorp.model.SimulatedCaptor;
 import com.training.spring.bigcorp.model.Site;
 import com.training.spring.bigcorp.repository.CaptorDao;
 import com.training.spring.bigcorp.repository.MeasureDao;
@@ -20,8 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Transactional
-@RequestMapping("/sites/{siteId}/captors/FIXED")
-public class FixedCaptorController {
+@RequestMapping("/sites/{siteId}/captors/SIMULATED")
+public class SimulatedCaptorController {
     @Autowired
     private CaptorDao captorDao;
     @Autowired
@@ -32,7 +31,7 @@ public class FixedCaptorController {
     @GetMapping
     public ModelAndView displaySites(Model model, @PathVariable String siteId){
         Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
-        return new ModelAndView("fixedCaptor")
+        return new ModelAndView("simulatedCaptor")
                 .addObject("siteId", site.getId())
                 .addObject("captors", captorDao.findBySiteId(site.getId()));
     }
@@ -40,23 +39,23 @@ public class FixedCaptorController {
     @GetMapping("/create")
     public ModelAndView create(Model model, @PathVariable String siteId){
         Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
-        return new ModelAndView("fixedCaptor")
+        return new ModelAndView("simulatedCaptor")
                 .addObject("site", site)
-                .addObject("captor", new FixedCaptor());
+                .addObject("captor", new SimulatedCaptor());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView save(@PathVariable String siteId, FixedCaptor captor) {
+    public ModelAndView save(@PathVariable String siteId, SimulatedCaptor captor) {
         Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
-        FixedCaptor captorToPersist;
+        SimulatedCaptor captorToPersist;
         if (captor.getId() == null) {
-            captorToPersist = new FixedCaptor(captor.getName(), site,
-                    captor.getDefaultPowerInWatt());
+            captorToPersist = new SimulatedCaptor(captor.getName(), site, captor.getMinPowerInWatt(), captor.getMaxPowerInWatt());
         } else {
-            captorToPersist = (FixedCaptor) captorDao.findById(captor.getId())
+            captorToPersist = (SimulatedCaptor) captorDao.findById(captor.getId())
                     .orElseThrow(IllegalArgumentException::new);
             captorToPersist.setName(captor.getName());
-            captorToPersist.setDefaultPowerInWatt(captor.getDefaultPowerInWatt());
+            captorToPersist.setMinPowerInWatt(captor.getMinPowerInWatt());
+            captorToPersist.setMaxPowerInWatt(captor.getMaxPowerInWatt());
         }
         captorDao.save(captorToPersist);
         return new ModelAndView("site").addObject("site", site);
