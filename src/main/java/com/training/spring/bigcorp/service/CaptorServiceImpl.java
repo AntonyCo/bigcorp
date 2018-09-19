@@ -21,7 +21,7 @@ public class CaptorServiceImpl implements CaptorService{
     private CaptorDao captorDao;
 
     @Autowired
-    public CaptorServiceImpl(@Qualifier("fixedMeasureService") MeasureService fixMeasService, MeasureService realMeasureService, MeasureService simulatedMeasureService, CaptorDao captorDao) {
+    public CaptorServiceImpl(MeasureService fixedMeasureService, MeasureService realMeasureService, MeasureService simulatedMeasureService, CaptorDao captorDao) {
         this.fixedMeasureService = fixedMeasureService;
         this.realMeasureService = realMeasureService;
         this.simulatedMeasureService = simulatedMeasureService;

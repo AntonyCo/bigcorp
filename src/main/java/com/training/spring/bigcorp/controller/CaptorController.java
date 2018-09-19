@@ -7,6 +7,7 @@ import com.training.spring.bigcorp.repository.CaptorDao;
 import com.training.spring.bigcorp.repository.MeasureDao;
 import com.training.spring.bigcorp.repository.SiteDao;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +66,7 @@ public class CaptorController {
                 captorDao.findById(id).orElseThrow(NotFoundException::new);
         return new ModelAndView("captor").addObject("captor", toDto(captor));
     }
+    @Secured("ADMIN")
     @GetMapping("/create")
     public ModelAndView create(@PathVariable String siteId) {
         Site site =
@@ -80,6 +82,7 @@ public class CaptorController {
         captorDao.save(captor);
         return new ModelAndView("site").addObject("site", site);
     }
+    @Secured("ADMIN")
     @PostMapping("/{id}/delete")
     public ModelAndView delete(@PathVariable String siteId, @PathVariable String id) {
         measureDao.deleteByCaptorId(id);

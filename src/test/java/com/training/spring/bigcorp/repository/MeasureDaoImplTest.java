@@ -152,4 +152,20 @@ public class MeasureDaoImplTest {
         Assertions.assertThat(measureDao.findAll().stream().filter(m ->
                 m.getCaptor().getId().equals("c1"))).isEmpty();
     }
+
+    @Test
+    public void findTopByCaptorIdOrderByInstantDesc() {
+        Measure lastMeasure = measureDao.findTopByCaptorIdOrderByInstantDesc("c1");
+        Assertions.assertThat(lastMeasure.getId()).isEqualTo(-5L);
+        Assertions.assertThat(lastMeasure.getInstant()).isEqualTo(Instant.parse("2018-08-09T11:04:00.000Z"));
+        Assertions.assertThat(lastMeasure.getValueInWatt()).isEqualTo(1_009_678);
+        Assertions.assertThat(lastMeasure.getCaptor().getName()).isEqualTo("Eolienne");
+        Assertions.assertThat(lastMeasure.getCaptor().getSite().getName()).isEqualTo("Bigcorp Lyon");
+    }
+    @Test
+    public void findMeasureByIntervalAndCaptor() {
+        List<Measure> measures = measureDao.findMeasureByIntervalAndCaptor(Instant.parse("2018-08-09T11:00:00.000Z"),
+        Instant.parse("2018-08-09T11:10:00.000Z"), "c1");
+        Assertions.assertThat(measures).hasSize(5);
+    }
 }

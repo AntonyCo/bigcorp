@@ -19,7 +19,23 @@
                     <a class="nav-link" href="/sites">Sites</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="/measures">Mesures</a>
+                    <a class="nav-link" href="/measures">Mesures</a>
+                </li>
+            </ul>
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    {{#logged}}
+                        <form action="/logout" method="post">
+                            <input type="hidden" name="{{_csrf.parameterName}}"
+                                   value="{{_csrf.token}}">
+
+                            <button type="submit" class="btn btn-link nav-link"><i class="fa fa-lock"></i>&nbsp;Se déconnecter</button>
+
+                        </form>
+                    {{/logged}}
+
+                    {{^logged}}<a class="nav-link" href="/formLogin"><i class="fa fa-lock-open"></i> Se connecter</a>{{/logged}}
+
                 </li>
             </ul>
         </div>

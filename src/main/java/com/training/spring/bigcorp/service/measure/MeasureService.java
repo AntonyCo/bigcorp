@@ -8,8 +8,9 @@ import java.time.Instant;
 import java.util.List;
 
 public interface MeasureService<T extends Captor> {
-    List<Measure> readMeasures(T captor, Instant start, Instant end, MeasureStep
-            step);
+    List<Measure> readMeasures(T   captor, Instant start, Instant end, MeasureStep step);
+    Measure readAndSaveMeasure(T captor);
+
     default void checkReadMeasuresAgrs(T captor, Instant start, Instant end,
                                        MeasureStep step){
         if (captor == null) {

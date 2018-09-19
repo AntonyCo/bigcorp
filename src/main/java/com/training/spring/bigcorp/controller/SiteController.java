@@ -9,6 +9,7 @@ import com.training.spring.bigcorp.repository.MeasureDao;
 import com.training.spring.bigcorp.repository.SiteDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -38,6 +39,7 @@ public class SiteController {
                 .addObject("site",
                         siteDao.findById(id).orElseThrow(NotFoundException::new));
     }
+    @Secured("ADMIN")
     @GetMapping("/create")
     public ModelAndView create(Model model){
         return new ModelAndView("site").addObject("site", new Site());
@@ -56,6 +58,7 @@ public class SiteController {
             return new ModelAndView("sites").addObject("sites", siteDao.findAll());
         }
     }
+    @Secured("ADMIN")
     @PostMapping("/{id}/delete")
     public ModelAndView delete(@PathVariable String id) {
         // Comme les capteurs sont liés à un site et les mesures sont liées à un capteur, nous devons faire

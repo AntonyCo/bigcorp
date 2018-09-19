@@ -13,31 +13,27 @@ import java.util.Optional;
 @Service
 public class SiteServiceImpl implements SiteService {
     private final static Logger logger = LoggerFactory.getLogger(SiteService.class);
-    private SiteDao siteDao;
     private CaptorService captorService;
 
     public SiteServiceImpl() {}
 
     @Autowired
-    public SiteServiceImpl(SiteDao siteDao, CaptorService captorService) {
+    public SiteServiceImpl(CaptorService captorService) {
         logger.debug("Init SiteServiceImpl :{}", this);
-        this.siteDao = siteDao;
         this.captorService = captorService;
     }
     @Override
     @Monitored
     public Site findById(String siteId) {
         logger.debug("Appel de findById :{}", this);
-        if (siteId == null) {
-            return null;
-        }
 
-        Optional<Site> Optsite = siteDao.findById(siteId);
-        if(!Optsite.isPresent()){
+        if(siteId == null){
             return null;
         }
-        Site site = Optsite.get();
-        //site.setCaptors(captorService.findBySite(siteId));
+        Site site = new Site("Florange");
+        site.setId(siteId);
+        site.setCaptors(captorService.findBySite(siteId));
+
         return site;
     }
 }

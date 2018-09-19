@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>Measures BigCorp</title>
+    {{> partial-import}}
+    <script>
+        var chart;
+        document.addEventListener('DOMContentLoaded', function () {
+            var captors = [{{{captors}}}]
+            chart = Highcharts.chart('container', {
+                chart: {
+                    type: 'spline'
+                },
+                title: {
+                    text: 'Puissance consommée'
+                },
+                subtitle: {
+                    text: 'raffraîchie toutes les 2 secondes'
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Puissance'
+                    }
+                },
+                tooltip: {
+                    pointFormat: '{series.name} : <b>{point.y:,.0f}</b>'
+                },
+                series: captors.map(c => ({
+                    name: c.name,
+                    data: []
+                }))
+            });
+        });
+
+        var source = new EventSource("/measures/events");
+        source.onmessage = (event) => {
+            const measure = JSON.parse(event.data);
+            const series = chart.series.filter(s => s.name === measure.captorName)[0];
+            const point = {
+                x:moment(measure.instant).toDate().getTime(),
+                y:measure.valueInWatt
+            };
+            if(series){
+                const shift = series.data.length > 1000;
+                series.addPoint(point, true, shift);
+            }
+        };
+    </script>
+</head>
+<body>
+{{> partial-header}}
+<div class="container">
+    <h1>Suivi en temps réel</h1>
+    <div id="container" class="h-90"></div>
+    <div class="adder"></div>
+</div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+{{> partial-footer}}
+</body>
+</html>
